@@ -1,0 +1,18 @@
+{
+  "name": "Kep",
+  "short_name": "Kep",
+  "description": "Know where your money went.",
+  "start_url": "/dashboard",
+  "display": "standalone",
+  "background_color": "#f6f3ed",
+  "theme_color": "#10b981",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

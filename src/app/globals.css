@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --color-canvas: 246 243 237;
+  --color-surface: 251 250 247;
+  --color-elevated: 255 255 252;
+  --color-ink: 21 25 23;
+  --color-muted: 98 107 103;
+  --color-line: 222 218 209;
+  --color-accent: 16 185 129;
+  --color-danger: 220 38 38;
+  --color-warning: 217 119 6;
+}
+
+.dark {
+  color-scheme: dark;
+  --color-canvas: 15 19 18;
+  --color-surface: 21 27 25;
+  --color-elevated: 27 35 32;
+  --color-ink: 235 239 236;
+  --color-muted: 155 167 162;
+  --color-line: 48 58 54;
+  --color-accent: 52 211 153;
+  --color-danger: 248 113 113;
+  --color-warning: 251 191 36;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  background: rgb(var(--color-canvas));
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  background:
+    radial-gradient(circle at top right, rgb(var(--color-accent) / 0.12), transparent 28rem),
+    rgb(var(--color-canvas));
+  color: rgb(var(--color-ink));
+  font-feature-settings:
+    "rlig" 1,
+    "calt" 1;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+::selection {
+  background: rgb(var(--color-accent) / 0.25);
+}
+
+.safe-bottom {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
