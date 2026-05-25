@@ -6,11 +6,19 @@ import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { FieldError, Input, Label, Select, Textarea } from "@/components/ui/field";
+import {
+  FieldError,
+  Input,
+  Label,
+  Select,
+  Textarea
+} from "@/components/ui/field";
 import { toDateTimeLocalValue } from "@/lib/date/periods";
-import { localTesseractSlipProcessor } from "@/lib/ocr/local-tesseract-processor";
 import type { OcrProgress } from "@/lib/ocr/slip-processor";
-import { expenseSchema, type ExpenseFormValues } from "@/lib/validation/schemas";
+import {
+  expenseSchema,
+  type ExpenseFormValues
+} from "@/lib/validation/schemas";
 import type { Category } from "@/types/database";
 import { saveExpense } from "@/features/expenses/actions";
 
@@ -51,7 +59,12 @@ export function SlipUploadForm({ categories }: { categories: Category[] }) {
     setProgress({ status: "starting", progress: 0 });
 
     try {
-      const draft = await localTesseractSlipProcessor.process(file, setProgress);
+      const { localTesseractSlipProcessor } =
+        await import("@/lib/ocr/local-tesseract-processor");
+      const draft = await localTesseractSlipProcessor.process(
+        file,
+        setProgress
+      );
       setValue("raw_ocr_text", draft.raw_text);
       if (draft.amount) setValue("amount", draft.amount);
       if (draft.occurred_at) setValue("occurred_at", draft.occurred_at);
@@ -75,13 +88,16 @@ export function SlipUploadForm({ categories }: { categories: Category[] }) {
           <div>
             <h2 className="font-semibold text-ink">Upload Thai bank e-slip</h2>
             <p className="mt-1 text-sm leading-6 text-muted">
-              OCR runs locally in your browser. Review every field before saving.
+              OCR runs locally in your browser. Review every field before
+              saving.
             </p>
           </div>
         </div>
         <label className="flex min-h-32 cursor-pointer flex-col items-center justify-center gap-3 rounded-lg border border-dashed border-line bg-elevated p-4 text-center transition hover:border-accent/60">
           <FileImage className="h-8 w-8 text-accent" />
-          <span className="text-sm font-medium text-ink">Choose slip image</span>
+          <span className="text-sm font-medium text-ink">
+            Choose slip image
+          </span>
           <span className="text-xs text-muted">PNG or JPG from photos</span>
           <input
             type="file"
@@ -97,10 +113,15 @@ export function SlipUploadForm({ categories }: { categories: Category[] }) {
           <div className="grid gap-2">
             <div className="flex items-center justify-between text-sm">
               <span className="text-muted">{progress.status}</span>
-              <span className="font-medium text-ink">{Math.round(progress.progress * 100)}%</span>
+              <span className="font-medium text-ink">
+                {Math.round(progress.progress * 100)}%
+              </span>
             </div>
             <div className="h-2 overflow-hidden rounded-full bg-line">
-              <div className="h-full rounded-full bg-accent" style={{ width: `${progress.progress * 100}%` }} />
+              <div
+                className="h-full rounded-full bg-accent"
+                style={{ width: `${progress.progress * 100}%` }}
+              />
             </div>
           </div>
         ) : null}
@@ -110,7 +131,9 @@ export function SlipUploadForm({ categories }: { categories: Category[] }) {
       <Card>
         <form
           className="grid gap-4"
-          onSubmit={handleSubmit((values) => startTransition(() => saveExpense(values)))}
+          onSubmit={handleSubmit((values) =>
+            startTransition(() => saveExpense(values))
+          )}
         >
           <input type="hidden" {...register("source")} />
           <div className="flex items-center gap-2">
@@ -120,7 +143,11 @@ export function SlipUploadForm({ categories }: { categories: Category[] }) {
           <div className="grid grid-cols-[1fr_7rem] gap-3">
             <div className="grid gap-2">
               <Label>Amount</Label>
-              <Input inputMode="decimal" placeholder="1234.56" {...register("amount")} />
+              <Input
+                inputMode="decimal"
+                placeholder="1234.56"
+                {...register("amount")}
+              />
               <FieldError message={errors.amount?.message} />
             </div>
             <div className="grid gap-2">
@@ -169,9 +196,18 @@ export function SlipUploadForm({ categories }: { categories: Category[] }) {
             <Textarea placeholder="Optional note" {...register("note")} />
           </div>
           <details className="rounded-lg border border-line bg-elevated p-3">
-            <summary className="cursor-pointer text-sm font-medium text-ink">Raw OCR text</summary>
-            <Textarea className="mt-3 font-mono text-xs" {...register("raw_ocr_text")} />
-            {!rawText ? <p className="mt-2 text-sm text-muted">OCR text will appear here after scanning.</p> : null}
+            <summary className="cursor-pointer text-sm font-medium text-ink">
+              Raw OCR text
+            </summary>
+            <Textarea
+              className="mt-3 font-mono text-xs"
+              {...register("raw_ocr_text")}
+            />
+            {!rawText ? (
+              <p className="mt-2 text-sm text-muted">
+                OCR text will appear here after scanning.
+              </p>
+            ) : null}
           </details>
           <Button type="submit" disabled={isPending || isOcrRunning}>
             <Save className="h-4 w-4" />

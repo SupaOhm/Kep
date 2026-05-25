@@ -1,9 +1,14 @@
 import Link from "next/link";
-import { redirect } from "next/navigation";
-import { BarChart3, Home, Plus, ReceiptText, Settings, UploadCloud, WalletCards } from "lucide-react";
+import {
+  BarChart3,
+  Home,
+  Plus,
+  ReceiptText,
+  Settings,
+  UploadCloud,
+  WalletCards
+} from "lucide-react";
 import { SignOutButton } from "@/features/auth/sign-out-button";
-import { createClient } from "@/lib/supabase/server";
-import { ensureUserWorkspace } from "@/lib/supabase/onboarding";
 
 const nav = [
   { href: "/dashboard", label: "Dashboard", icon: Home },
@@ -13,23 +18,15 @@ const nav = [
   { href: "/settings", label: "Settings", icon: Settings }
 ];
 
-export async function AppShell({ children }: { children: React.ReactNode }) {
-  const supabase = await createClient();
-  const {
-    data: { user }
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/");
-  }
-
-  await ensureUserWorkspace(supabase, user);
-
+export function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="mx-auto flex min-h-screen w-full max-w-5xl flex-col px-4 pb-24 pt-4 sm:px-6 lg:px-8">
       <header className="sticky top-0 z-20 -mx-4 mb-4 border-b border-line bg-canvas/85 px-4 py-3 backdrop-blur sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
         <div className="mx-auto flex max-w-5xl items-center justify-between">
-          <Link href="/dashboard" className="flex items-center gap-2 font-semibold tracking-tight text-ink">
+          <Link
+            href="/dashboard"
+            className="flex items-center gap-2 font-semibold tracking-tight text-ink"
+          >
             <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-ink text-sm font-bold text-canvas">
               K
             </span>
@@ -64,7 +61,9 @@ export async function AppShell({ children }: { children: React.ReactNode }) {
                 key={item.href}
                 href={item.href}
                 className={`flex min-h-14 flex-col items-center justify-center gap-1 rounded-lg text-[11px] font-medium ${
-                  item.primary ? "bg-accent text-slate-950" : "text-muted hover:bg-elevated hover:text-ink"
+                  item.primary
+                    ? "bg-accent text-slate-950"
+                    : "text-muted hover:bg-elevated hover:text-ink"
                 }`}
               >
                 <Icon className="h-5 w-5" />
