@@ -35,6 +35,7 @@ Tagline: **Know where your money went.**
 ```bash
 pnpm install
 cp .env.example .env.local
+pnpm check:env
 pnpm dev
 ```
 
@@ -47,6 +48,8 @@ NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 ```
+
+`NEXT_PUBLIC_SITE_URL` defaults to `http://localhost:3000` in local development if it is omitted.
 
 ## Supabase Setup
 
@@ -63,7 +66,7 @@ http://localhost:3000/auth/callback
 For production, also add:
 
 ```text
-https://your-domain.com/auth/callback
+https://YOUR_DOMAIN/auth/callback
 ```
 
 ## Google OAuth Setup
@@ -83,12 +86,15 @@ Apply SQL through the Supabase dashboard SQL editor, Supabase CLI, or your migra
 supabase db push
 ```
 
-The app creates profile, default categories, and disabled default budgets idempotently after login.
+If you are not using the Supabase CLI yet, paste `supabase/migrations/202605220001_initial_schema.sql` into the Supabase SQL editor and run it once.
+
+The app creates profile, default categories, and disabled default budgets idempotently after login. There is no database auth trigger in this MVP.
 
 ## Development Commands
 
 ```bash
 pnpm dev
+pnpm check:env
 pnpm lint
 pnpm typecheck
 pnpm build

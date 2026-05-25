@@ -4,9 +4,10 @@ import { GoogleSignInButton } from "@/features/auth/google-sign-in-button";
 export default async function LandingPage({
   searchParams
 }: {
-  searchParams: Promise<{ error?: string }>;
+  searchParams: Promise<{ error?: string; next?: string }>;
 }) {
   const params = await searchParams;
+  const nextPath = params.next?.startsWith("/") && !params.next.startsWith("//") ? params.next : "/dashboard";
 
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-5xl flex-col px-4 py-8 sm:px-6 lg:px-8">
@@ -24,7 +25,7 @@ export default async function LandingPage({
           <h1 className="text-5xl font-semibold tracking-tight text-ink sm:text-6xl">Kep</h1>
           <p className="mt-4 max-w-xl text-xl leading-8 text-muted">Know where your money went.</p>
           <div className="mt-8 max-w-sm">
-            <GoogleSignInButton />
+            <GoogleSignInButton nextPath={nextPath} />
             {params.error ? <p className="mt-3 text-sm text-danger">{params.error}</p> : null}
             <p className="mt-3 text-xs leading-5 text-muted">
               Sign in with Google through Supabase Auth. Slip images are processed in your browser and are not

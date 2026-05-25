@@ -21,9 +21,15 @@ const defaultBudgets = [
   { period: "monthly", limit_minor: 0 }
 ] as const;
 
+function throwIfSupabaseError(error: { message: string } | null, context: string) {
+  if (error) {
+    throw new Error(`${context}: ${error.message}`);
+  }
+}
+
 export async function ensureUserWorkspace(supabase: AppSupabaseClient, user: User) {
   const metadata = user.user_metadata;
-  await supabase.from("profiles").upsert(
+  const { error: profileError } = await supabase.from("profiles").upsert(
     {
       id: user.id,
       email: user.email ?? null,
@@ -32,15 +38,21 @@ export async function ensureUserWorkspace(supabase: AppSupabaseClient, user: Use
     },
     { onConflict: "id" }
   );
+  throwIfSupabaseError(profileError, "Unable to upsert profile");
 
-  const { count } = await supabase
+  const { data: existingDefaultCategories, error: categoriesReadError } = await supabase
     .from("categories")
-    .select("id", { count: "exact", head: true })
-    .eq("user_id", user.id);
+    .select("name")
+    .eq("user_id", user.id)
+    .eq("is_default", true);
+  throwIfSupabaseError(categoriesReadError, "Unable to read categories");
 
-  if (!count) {
-    await supabase.from("categories").insert(
-      defaultCategories.map(([name, color, icon]) => ({
+  const existingCategoryNames = new Set((existingDefaultCategories ?? []).map((category) => category.name));
+  const missingCategories = defaultCategories.filter(([name]) => !existingCategoryNames.has(name));
+
+  if (missingCategories.length > 0) {
+    const { error: categoriesInsertError } = await supabase.from("categories").insert(
+      missingCategories.map(([name, color, icon]) => ({
         user_id: user.id,
         name,
         color,
@@ -48,16 +60,28 @@ export async function ensureUserWorkspace(supabase: AppSupabaseClient, user: Use
         is_default: true
       }))
     );
+    throwIfSupabaseError(categoriesInsertError, "Unable to create default categories");
   }
 
-  await supabase.from("budgets").upsert(
-    defaultBudgets.map((budget) => ({
-      user_id: user.id,
-      period: budget.period,
-      limit_minor: budget.limit_minor,
-      is_enabled: false,
-      currency_code: "THB"
-    })),
-    { onConflict: "user_id,period" }
-  );
+  const { data: existingBudgets, error: budgetsReadError } = await supabase
+    .from("budgets")
+    .select("period")
+    .eq("user_id", user.id);
+  throwIfSupabaseError(budgetsReadError, "Unable to read budgets");
+
+  const existingBudgetPeriods = new Set((existingBudgets ?? []).map((budget) => budget.period));
+  const missingBudgets = defaultBudgets.filter((budget) => !existingBudgetPeriods.has(budget.period));
+
+  if (missingBudgets.length > 0) {
+    const { error: budgetsInsertError } = await supabase.from("budgets").insert(
+      missingBudgets.map((budget) => ({
+        user_id: user.id,
+        period: budget.period,
+        limit_minor: budget.limit_minor,
+        is_enabled: false,
+        currency_code: "THB"
+      }))
+    );
+    throwIfSupabaseError(budgetsInsertError, "Unable to create default budgets");
+  }
 }

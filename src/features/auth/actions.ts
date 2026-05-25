@@ -4,12 +4,21 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getSiteUrl } from "@/lib/supabase/env";
 
-export async function signInWithGoogle() {
+function getSafeNextPath(value: FormDataEntryValue | null) {
+  if (typeof value !== "string" || !value.startsWith("/") || value.startsWith("//")) {
+    return "/dashboard";
+  }
+
+  return value;
+}
+
+export async function signInWithGoogle(formData: FormData) {
+  const nextPath = getSafeNextPath(formData.get("next"));
   const supabase = await createClient();
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
     options: {
-      redirectTo: `${getSiteUrl()}/auth/callback`
+      redirectTo: `${getSiteUrl()}/auth/callback?next=${encodeURIComponent(nextPath)}`
     }
   });
 
