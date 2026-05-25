@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FileImage, ScanText, Save, UploadCloud } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -23,8 +24,10 @@ import type { Category } from "@/types/database";
 import { saveExpense } from "@/features/expenses/actions";
 
 export function SlipUploadForm({ categories }: { categories: Category[] }) {
+  const router = useRouter();
   const [progress, setProgress] = useState<OcrProgress | null>(null);
   const [ocrError, setOcrError] = useState<string | null>(null);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [isOcrRunning, setIsOcrRunning] = useState(false);
   const [isPending, startTransition] = useTransition();
   const {
@@ -131,9 +134,23 @@ export function SlipUploadForm({ categories }: { categories: Category[] }) {
       <Card>
         <form
           className="grid gap-4"
-          onSubmit={handleSubmit((values) =>
-            startTransition(() => saveExpense(values))
-          )}
+          onSubmit={handleSubmit((values) => {
+            setSubmitError(null);
+            startTransition(async () => {
+              try {
+                const result = await saveExpense(values);
+                if (!result.ok) {
+                  setSubmitError(result.error ?? "Unable to save expense.");
+                  return;
+                }
+
+                router.push("/expenses");
+                router.refresh();
+              } catch (error) {
+                setSubmitError(error instanceof Error ? error.message : "Unable to save expense.");
+              }
+            });
+          })}
         >
           <input type="hidden" {...register("source")} />
           <div className="flex items-center gap-2">
@@ -209,6 +226,7 @@ export function SlipUploadForm({ categories }: { categories: Category[] }) {
               </p>
             ) : null}
           </details>
+          {submitError ? <p className="text-sm text-danger">{submitError}</p> : null}
           <Button type="submit" disabled={isPending || isOcrRunning}>
             <Save className="h-4 w-4" />
             {isPending ? "Saving..." : "Confirm and save"}

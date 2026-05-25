@@ -7,9 +7,13 @@ const currencyCode = z
   .min(3)
   .max(8)
   .transform((value) => value.toUpperCase());
+const optionalUuid = z.preprocess(
+  (value) => (value === "" ? undefined : value),
+  z.string().uuid().optional()
+);
 
 export const expenseSchema = z.object({
-  id: z.string().uuid().optional(),
+  id: optionalUuid,
   amount: z.string().trim().min(1, "Amount is required."),
   currency_code: currencyCode.default("THB"),
   occurred_at: z.string().trim().min(1, "Date and time are required."),

@@ -2,7 +2,8 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Save } from "lucide-react";
-import { useTransition } from "react";
+import { useRouter } from "next/navigation";
+import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { FieldError, Input, Label, Select, Textarea } from "@/components/ui/field";
@@ -17,7 +18,9 @@ type Props = {
 };
 
 export function ExpenseForm({ categories, initialValues, submitLabel = "Save expense" }: Props) {
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
@@ -30,7 +33,23 @@ export function ExpenseForm({ categories, initialValues, submitLabel = "Save exp
   return (
     <form
       className="grid gap-4"
-      onSubmit={handleSubmit((values) => startTransition(() => saveExpense(values)))}
+      onSubmit={handleSubmit((values) => {
+        setSubmitError(null);
+        startTransition(async () => {
+          try {
+            const result = await saveExpense(values);
+            if (!result.ok) {
+              setSubmitError(result.error ?? "Unable to save expense.");
+              return;
+            }
+
+            router.push("/expenses");
+            router.refresh();
+          } catch (error) {
+            setSubmitError(error instanceof Error ? error.message : "Unable to save expense.");
+          }
+        });
+      })}
     >
       <input type="hidden" {...register("id")} />
       <input type="hidden" {...register("source")} />
@@ -91,6 +110,7 @@ export function ExpenseForm({ categories, initialValues, submitLabel = "Save exp
         <Label htmlFor="note">Note</Label>
         <Textarea id="note" placeholder="Optional note" {...register("note")} />
       </div>
+      {submitError ? <p className="text-sm text-danger">{submitError}</p> : null}
       <Button type="submit" disabled={isPending}>
         <Save className="h-4 w-4" />
         {isPending ? "Saving..." : submitLabel}
