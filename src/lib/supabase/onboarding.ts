@@ -21,7 +21,16 @@ const defaultBudgets = [
   { period: "monthly", limit_minor: 0 }
 ] as const;
 
-function throwIfSupabaseError(error: { message: string } | null, context: string) {
+type SupabaseError = {
+  code?: string;
+  message: string;
+};
+
+function isDuplicateKeyError(error: SupabaseError | null) {
+  return error?.code === "23505";
+}
+
+function throwIfSupabaseError(error: SupabaseError | null, context: string) {
   if (error) {
     throw new Error(`${context}: ${error.message}`);
   }
@@ -43,8 +52,7 @@ export async function ensureUserWorkspace(supabase: AppSupabaseClient, user: Use
   const { data: existingDefaultCategories, error: categoriesReadError } = await supabase
     .from("categories")
     .select("name")
-    .eq("user_id", user.id)
-    .eq("is_default", true);
+    .eq("user_id", user.id);
   throwIfSupabaseError(categoriesReadError, "Unable to read categories");
 
   const existingCategoryNames = new Set((existingDefaultCategories ?? []).map((category) => category.name));
@@ -60,7 +68,9 @@ export async function ensureUserWorkspace(supabase: AppSupabaseClient, user: Use
         is_default: true
       }))
     );
-    throwIfSupabaseError(categoriesInsertError, "Unable to create default categories");
+    if (!isDuplicateKeyError(categoriesInsertError)) {
+      throwIfSupabaseError(categoriesInsertError, "Unable to create default categories");
+    }
   }
 
   const { data: existingBudgets, error: budgetsReadError } = await supabase
@@ -73,15 +83,21 @@ export async function ensureUserWorkspace(supabase: AppSupabaseClient, user: Use
   const missingBudgets = defaultBudgets.filter((budget) => !existingBudgetPeriods.has(budget.period));
 
   if (missingBudgets.length > 0) {
-    const { error: budgetsInsertError } = await supabase.from("budgets").insert(
+    const { error: budgetsInsertError } = await supabase.from("budgets").upsert(
       missingBudgets.map((budget) => ({
         user_id: user.id,
         period: budget.period,
         limit_minor: budget.limit_minor,
         is_enabled: false,
         currency_code: "THB"
-      }))
+      })),
+      {
+        onConflict: "user_id,period",
+        ignoreDuplicates: true
+      }
     );
-    throwIfSupabaseError(budgetsInsertError, "Unable to create default budgets");
+    if (!isDuplicateKeyError(budgetsInsertError)) {
+      throwIfSupabaseError(budgetsInsertError, "Unable to create default budgets");
+    }
   }
 }
