@@ -6,7 +6,9 @@ import { formatMoney } from "@/lib/currency/money";
 import type { Category, Expense } from "@/types/database";
 import { DeleteExpenseButton } from "./delete-expense-button";
 
-type ExpenseWithCategory = Expense & { categories?: Pick<Category, "name" | "color"> | null };
+type ExpenseWithCategory = Expense & {
+  categories?: Pick<Category, "name" | "color"> | null;
+};
 
 export function ExpenseList({ expenses }: { expenses: ExpenseWithCategory[] }) {
   if (!expenses.length) {
@@ -28,29 +30,33 @@ export function ExpenseList({ expenses }: { expenses: ExpenseWithCategory[] }) {
       {expenses.map((expense) => (
         <div
           key={expense.id}
-          className="flex items-center justify-between gap-3 rounded-lg border border-line bg-surface p-3"
+          className="flex items-center justify-between gap-3 rounded-2xl border border-line/60 bg-surface p-4 transition-colors hover:bg-elevated"
         >
-          <div className="min-w-0">
-            <div className="flex items-center gap-2">
-              <span
-                className="h-2.5 w-2.5 rounded-full"
-                style={{ background: expense.categories?.color ?? "#94a3b8" }}
-              />
-              <p className="truncate font-medium text-ink">
-                {expense.merchant_name || expense.receiver_name || expense.categories?.name || "Expense"}
+          <div className="flex min-w-0 items-center gap-3">
+            <span
+              className="h-10 w-10 flex-none rounded-xl"
+              style={{ background: expense.categories?.color ?? "#94a3b8" }}
+            />
+            <div className="min-w-0">
+              <p className="truncate font-semibold text-ink">
+                {expense.merchant_name ||
+                  expense.receiver_name ||
+                  expense.categories?.name ||
+                  "Expense"}
+              </p>
+              <p className="mt-0.5 text-xs text-muted">
+                {new Intl.DateTimeFormat("th-TH", {
+                  dateStyle: "medium",
+                  timeStyle: "short"
+                }).format(new Date(expense.occurred_at))}
+                {expense.categories?.name
+                  ? ` · ${expense.categories.name}`
+                  : ""}
               </p>
             </div>
-            <p className="mt-1 text-sm text-muted">
-              {new Intl.DateTimeFormat("th-TH", {
-                dateStyle: "medium",
-                timeStyle: "short"
-              }).format(new Date(expense.occurred_at))}
-              {expense.categories?.name ? ` · ${expense.categories.name}` : ""}
-            </p>
-            {expense.note ? <p className="mt-1 truncate text-sm text-muted">{expense.note}</p> : null}
           </div>
-          <div className="flex shrink-0 items-center gap-2">
-            <p className="text-right font-semibold text-ink">
+          <div className="flex shrink-0 items-center gap-1">
+            <p className="tabular-nums text-base font-bold text-ink">
               {formatMoney(expense.amount_minor, expense.currency_code)}
             </p>
             <Link

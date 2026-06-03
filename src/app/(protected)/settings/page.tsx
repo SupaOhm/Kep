@@ -23,8 +23,8 @@ export default async function SettingsPage() {
   return (
     <div className="grid gap-5">
       <div>
-        <p className="text-sm font-medium text-accent">Preferences</p>
-        <h1 className="mt-1 text-3xl font-semibold tracking-tight text-ink">
+        <p className="text-xs font-bold uppercase tracking-widest text-muted">Preferences</p>
+        <h1 className="mt-1 text-2xl font-bold tracking-tight text-ink">
           Settings
         </h1>
       </div>

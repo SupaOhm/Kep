@@ -19,11 +19,11 @@ export default async function UploadPage() {
   return (
     <div className="mx-auto grid max-w-2xl gap-5">
       <div>
-        <p className="text-sm font-medium text-accent">Slip OCR</p>
-        <h1 className="mt-1 text-3xl font-semibold tracking-tight text-ink">
+        <p className="text-xs font-bold uppercase tracking-widest text-muted">Slip OCR</p>
+        <h1 className="mt-1 text-2xl font-bold tracking-tight text-ink">
           Upload slip
         </h1>
-        <p className="mt-2 text-sm text-muted">
+        <p className="mt-1.5 text-sm text-muted">
           OCR is best-effort and never saves automatically. Slip images are not
           uploaded by default.
         </p>

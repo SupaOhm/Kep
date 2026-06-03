@@ -60,13 +60,13 @@ export default async function ExpensesPage({
     <div className="grid gap-5">
       <div className="flex items-end justify-between gap-4">
         <div>
-          <p className="text-sm font-medium text-accent">Transactions</p>
-          <h1 className="mt-1 text-3xl font-semibold tracking-tight text-ink">
+          <p className="text-xs font-bold uppercase tracking-widest text-muted">Transactions</p>
+          <h1 className="mt-1 text-2xl font-bold tracking-tight text-ink">
             Expenses
           </h1>
         </div>
-        <Link href="/expenses/new" className={buttonClassName()}>
-          <Plus className="h-4 w-4" />
+        <Link href="/expenses/new" className={buttonClassName({ size: "sm" })}>
+          <Plus className="h-3.5 w-3.5" />
           Add
         </Link>
       </div>
