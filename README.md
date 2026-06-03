@@ -118,6 +118,48 @@ pnpm build
 
 OCR is best-effort. Kep never auto-saves OCR results. The user must review and confirm the draft. Slip images are processed in the browser and are not uploaded or permanently stored by default.
 
+### OCR Parser Tests and Fixtures
+
+The parser (`src/lib/ocr/slip-parser.ts`) is tested with anonymized OCR text fixtures — no real slip images.
+
+**Rules for fixtures:**
+- Never commit real slip images, real account numbers, real names, or real transaction references.
+- Fixtures must contain only fake values that resemble realistic Thai bank slip OCR output.
+- Fixtures live in `src/lib/ocr/__tests__/fixtures/`.
+
+**Run parser tests:**
+
+```bash
+pnpm test         # all tests
+pnpm test:ocr     # OCR parser only
+```
+
+**Adding a new anonymized fixture:**
+
+1. Create a `.txt` file in `src/lib/ocr/__tests__/fixtures/` with fake Thai bank slip OCR text.
+2. Use fake account numbers (e.g. `xxx-x-xx123-x`), fake names, fake references.
+3. Add a `describe` block in `src/lib/ocr/__tests__/slip-parser.test.ts` asserting the fields you expect to extract.
+4. Run `pnpm test:ocr` to confirm all assertions pass.
+
+## Supabase Heartbeat
+
+Supabase Free projects pause after 1 week of inactivity. A GitHub Actions workflow pings the project twice a week to prevent this.
+
+**One-time setup:**
+
+1. Apply the heartbeat migration in the Supabase SQL editor:
+   `supabase/migrations/20260603000000_add_heartbeat_table.sql`
+
+2. Add two repository secrets in GitHub → Settings → Secrets and variables → Actions:
+   - `SUPABASE_URL` — your Supabase project URL (e.g. `https://xxxx.supabase.co`)
+   - `SUPABASE_ANON_KEY` — your Supabase anon public key
+
+   Never use the service role key here.
+
+3. To test manually: Actions → **Supabase Heartbeat** → Run workflow.
+
+The workflow runs Monday and Thursday at 03:00 UTC. It reads a single harmless row from the `heartbeat` table using the public anon key. No user data is involved.
+
 ## Current Limitations
 
 - No live exchange rates.

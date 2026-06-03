@@ -10,7 +10,9 @@
     "typecheck": "tsc --noEmit",
     "check:env": "node scripts/check-env.mjs",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:ocr": "vitest run src/lib/ocr"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -36,6 +38,7 @@
     "prettier": "^3.4.2",
     "prettier-plugin-tailwindcss": "^0.6.9",
     "tailwindcss": "^3.4.17",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "vitest": "^4.1.8"
   }
 }
