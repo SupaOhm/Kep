@@ -1,0 +1,16 @@
+Bangkok Bank
+Bualuang iBanking
+
+Transaction Successful
+
+Date: 03/06/2025  11:30
+
+Amount: THB 600.00
+
+From Account: xxxx-xx-1234-x
+PRANEE DEMO
+
+Recipient: COFFEE SHOP DEMO
+Account: xxxx-xx-5678-x
+
+Reference: BBL2506031234567

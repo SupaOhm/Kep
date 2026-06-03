@@ -1,0 +1,16 @@
+Krungthai NEXT
+กรุงไทย
+
+รายการสำเร็จ
+
+Date 2025-06-03 09:15
+
+Amount THB 3,500.00
+
+From: SOMKIAT P.
+Acct: xxx-x-12345-x
+
+To: RECIPIENT NAME
+Acct: xxx-x-67890-x
+
+Transaction No. KTB2506031234567
