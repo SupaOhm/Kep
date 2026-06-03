@@ -28,51 +28,61 @@ export default async function DashboardPage() {
   const budgets = budgetsData ?? [];
 
   const orderedBudgets = ["daily", "weekly", "monthly"].flatMap((period) =>
-    budgets.filter((budget) => budget.period === period)
+    budgets.filter((b) => b.period === period)
   );
   const summaries = summarizeBudgets(orderedBudgets, expenses);
+  const dailySummary = summaries.find((s) => s.period === "daily");
+  const secondarySummaries = summaries.filter((s) => s.period !== "daily");
 
   return (
-    <div className="grid gap-5">
-      <section className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+    <div className="grid gap-6">
+      <section className="flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
         <div>
-          <p className="text-sm font-medium text-accent">Overview</p>
-          <h1 className="mt-1 text-3xl font-semibold tracking-tight text-ink">
-            Today’s spending
-          </h1>
+          <p className="text-xs font-bold uppercase tracking-widest text-muted">Overview</p>
+          <h1 className="mt-1 text-2xl font-bold tracking-tight text-ink">Dashboard</h1>
         </div>
-        <div className="grid grid-cols-2 gap-2 sm:flex">
+        <div className="flex gap-2">
           <Link
             href="/expenses/new"
-            className={buttonClassName({
-              variant: "secondary",
-              className: "w-full"
-            })}
+            className={buttonClassName({ variant: "secondary", size: "sm" })}
           >
-            <Plus className="h-4 w-4" />
+            <Plus className="h-3.5 w-3.5" />
             Quick add
           </Link>
           <Link
             href="/upload"
-            className={buttonClassName({ className: "w-full" })}
+            className={buttonClassName({ size: "sm" })}
           >
-            <UploadCloud className="h-4 w-4" />
+            <UploadCloud className="h-3.5 w-3.5" />
             Upload slip
           </Link>
         </div>
       </section>
-      <section className="grid gap-3 md:grid-cols-3">
-        {summaries.map((summary) => (
-          <Card key={summary.period}>
-            <BudgetProgress summary={summary} />
-          </Card>
-        ))}
-      </section>
+
+      {dailySummary && (
+        <Card>
+          <BudgetProgress summary={dailySummary} variant="hero" />
+        </Card>
+      )}
+
+      {secondarySummaries.length > 0 && (
+        <div className="grid grid-cols-2 gap-3">
+          {secondarySummaries.map((summary) => (
+            <Card key={summary.period}>
+              <BudgetProgress summary={summary} variant="compact" />
+            </Card>
+          ))}
+        </div>
+      )}
+
       <section className="grid gap-3">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-ink">Recent expenses</h2>
-          <Link href="/expenses" className="text-sm font-medium text-accent">
-            View all
+          <h2 className="text-base font-bold text-ink">Recent expenses</h2>
+          <Link
+            href="/expenses"
+            className="text-sm font-semibold text-accent hover:text-accent/80"
+          >
+            View all →
           </Link>
         </div>
         <ExpenseList expenses={expenses.slice(0, 8)} />

@@ -21,8 +21,8 @@ export default async function NewExpensePage() {
   return (
     <div className="mx-auto grid max-w-2xl gap-5">
       <div>
-        <p className="text-sm font-medium text-accent">Manual entry</p>
-        <h1 className="mt-1 text-3xl font-semibold tracking-tight text-ink">
+        <p className="text-xs font-bold uppercase tracking-widest text-muted">Manual entry</p>
+        <h1 className="mt-1 text-2xl font-bold tracking-tight text-ink">
           Add expense
         </h1>
       </div>

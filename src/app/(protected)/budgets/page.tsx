@@ -25,29 +25,37 @@ export default async function BudgetsPage() {
   const summaries = summarizeBudgets(orderedBudgets, expenses);
 
   return (
-    <div className="grid gap-5">
+    <div className="grid gap-6">
       <div>
-        <p className="text-sm font-medium text-accent">Limits</p>
-        <h1 className="mt-1 text-3xl font-semibold tracking-tight text-ink">
-          Budgets
-        </h1>
-        <p className="mt-2 text-sm text-muted">
-          No rollover is applied in this MVP.
-        </p>
+        <p className="text-xs font-bold uppercase tracking-widest text-muted">Limits</p>
+        <h1 className="mt-1 text-2xl font-bold tracking-tight text-ink">Budgets</h1>
+        <p className="mt-1.5 text-sm text-muted">No rollover is applied in this MVP.</p>
       </div>
-      <section className="grid gap-3 md:grid-cols-3">
-        {summaries.map((summary) => (
-          <Card key={summary.period}>
-            <BudgetProgress summary={summary} />
-          </Card>
-        ))}
+
+      <section>
+        <h2 className="mb-3 text-xs font-bold uppercase tracking-widest text-muted">
+          Current period
+        </h2>
+        <div className="grid gap-3 md:grid-cols-3">
+          {summaries.map((summary) => (
+            <Card key={summary.period}>
+              <BudgetProgress summary={summary} variant="compact" />
+            </Card>
+          ))}
+        </div>
       </section>
-      <section className="grid gap-3 md:grid-cols-3">
-        {orderedBudgets.map((budget) => (
-          <Card key={budget.id}>
-            <BudgetForm budget={budget} />
-          </Card>
-        ))}
+
+      <section>
+        <h2 className="mb-3 text-xs font-bold uppercase tracking-widest text-muted">
+          Settings
+        </h2>
+        <div className="grid gap-3 md:grid-cols-3">
+          {orderedBudgets.map((budget) => (
+            <Card key={budget.id}>
+              <BudgetForm budget={budget} />
+            </Card>
+          ))}
+        </div>
       </section>
     </div>
   );

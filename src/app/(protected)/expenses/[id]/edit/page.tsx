@@ -34,8 +34,8 @@ export default async function EditExpensePage({
   return (
     <div className="mx-auto grid max-w-2xl gap-5">
       <div>
-        <p className="text-sm font-medium text-accent">Edit transaction</p>
-        <h1 className="mt-1 text-3xl font-semibold tracking-tight text-ink">
+        <p className="text-xs font-bold uppercase tracking-widest text-muted">Edit transaction</p>
+        <h1 className="mt-1 text-2xl font-bold tracking-tight text-ink">
           Edit expense
         </h1>
       </div>
