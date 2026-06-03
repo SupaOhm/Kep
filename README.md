@@ -141,6 +141,25 @@ pnpm test:ocr     # OCR parser only
 3. Add a `describe` block in `src/lib/ocr/__tests__/slip-parser.test.ts` asserting the fields you expect to extract.
 4. Run `pnpm test:ocr` to confirm all assertions pass.
 
+## Supabase Heartbeat
+
+Supabase Free projects pause after 1 week of inactivity. A GitHub Actions workflow pings the project twice a week to prevent this.
+
+**One-time setup:**
+
+1. Apply the heartbeat migration in the Supabase SQL editor:
+   `supabase/migrations/20260603000000_add_heartbeat_table.sql`
+
+2. Add two repository secrets in GitHub → Settings → Secrets and variables → Actions:
+   - `SUPABASE_URL` — your Supabase project URL (e.g. `https://xxxx.supabase.co`)
+   - `SUPABASE_ANON_KEY` — your Supabase anon public key
+
+   Never use the service role key here.
+
+3. To test manually: Actions → **Supabase Heartbeat** → Run workflow.
+
+The workflow runs Monday and Thursday at 03:00 UTC. It reads a single harmless row from the `heartbeat` table using the public anon key. No user data is involved.
+
 ## Current Limitations
 
 - No live exchange rates.
