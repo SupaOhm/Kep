@@ -24,11 +24,11 @@ export function buttonClassName({
     size === "sm" && "min-h-9 px-3 py-2 text-sm",
     size === "icon" && "h-10 w-10 p-0",
     variant === "primary" &&
-      "border-transparent bg-accent text-slate-950 shadow-sm shadow-accent/20 hover:bg-accent/90",
+      "border-transparent bg-accent text-white shadow-sm shadow-accent/20 hover:bg-accent/90",
     variant === "secondary" &&
-      "border-line bg-elevated text-ink hover:border-accent/30 hover:bg-surface",
+      "border-line bg-surface text-ink hover:border-accent/30 hover:bg-elevated",
     variant === "ghost" &&
-      "border-transparent bg-transparent text-muted hover:bg-elevated hover:text-ink",
+      "border-transparent bg-transparent text-muted hover:bg-track hover:text-ink",
     variant === "danger" &&
       "border-danger/20 bg-danger/10 text-danger hover:bg-danger/15",
     className

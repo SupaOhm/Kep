@@ -12,7 +12,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             href="/dashboard"
             className="flex items-center gap-2.5 font-bold tracking-tight text-ink"
           >
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-sm font-black text-slate-950">
+            <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-accent text-sm font-black text-white">
               K
             </span>
             <span className="text-base">Kep</span>
@@ -27,7 +27,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </Link>
             <Link
               href="/upload"
-              className="inline-flex min-h-9 items-center justify-center gap-1.5 rounded-xl bg-accent px-3 text-sm font-semibold text-slate-950 transition hover:bg-accent/90"
+              className="inline-flex min-h-9 items-center justify-center gap-1.5 rounded-xl bg-accent px-3 text-sm font-semibold text-white transition hover:bg-accent/90"
             >
               <WalletCards className="h-3.5 w-3.5" />
               Upload slip

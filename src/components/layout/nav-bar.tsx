@@ -24,8 +24,8 @@ export function NavBar() {
   const pathname = usePathname();
 
   return (
-    <nav className="safe-bottom fixed inset-x-0 bottom-0 z-30 border-t border-line bg-surface/95 backdrop-blur md:hidden">
-      <div className="mx-auto grid max-w-lg grid-cols-5">
+    <nav className="safe-bottom fixed inset-x-0 bottom-0 z-30 border-t border-line bg-surface/80 px-3.5 pt-2 backdrop-blur-xl md:hidden">
+      <div className="mx-auto grid max-w-lg grid-cols-5 items-end">
         {nav.map((item) => {
           const Icon = item.icon;
           const isActive =
@@ -37,12 +37,12 @@ export function NavBar() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="flex flex-col items-center justify-center gap-1 py-2.5"
+                className="flex flex-col items-center gap-1.5"
               >
-                <span className="flex h-11 w-11 items-center justify-center rounded-full bg-accent shadow-sm shadow-accent/30">
-                  <Icon className="h-5 w-5 text-slate-950" />
+                <span className="-mt-5 flex h-[52px] w-[52px] items-center justify-center rounded-full bg-accent shadow-float">
+                  <Icon className="h-6 w-6 stroke-[2.4] text-white" />
                 </span>
-                <span className="text-[9px] font-bold tracking-wide text-accent">
+                <span className="text-[10px] font-bold tracking-wide text-accent-ink">
                   {item.label}
                 </span>
               </Link>
@@ -54,13 +54,13 @@ export function NavBar() {
               key={item.href}
               href={item.href}
               className={clsx(
-                "flex flex-col items-center justify-center gap-1 py-2.5 text-[9px] font-bold tracking-wide transition-colors",
-                isActive ? "text-accent" : "text-muted hover:text-ink"
+                "flex flex-col items-center gap-1 py-1 text-[10px] font-bold tracking-wide transition-colors",
+                isActive ? "text-accent-ink" : "text-muted hover:text-ink"
               )}
             >
               <Icon
                 className={clsx(
-                  "h-5 w-5 transition-all",
+                  "h-[23px] w-[23px] transition-all",
                   isActive ? "stroke-[2.5]" : "stroke-2"
                 )}
               />

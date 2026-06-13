@@ -16,7 +16,7 @@ export default async function LandingPage({
     <main className="mx-auto flex min-h-screen w-full max-w-5xl flex-col px-4 py-8 sm:px-6 lg:px-8">
       <nav className="flex items-center justify-between">
         <div className="flex items-center gap-2.5 font-bold text-ink">
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-sm font-black text-slate-950">
+          <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-accent text-sm font-black text-white">
             K
           </span>
           <span>Kep</span>
@@ -25,7 +25,7 @@ export default async function LandingPage({
 
       <section className="grid flex-1 items-center gap-10 py-12 md:grid-cols-[1.1fr_0.9fr]">
         <div>
-          <p className="mb-4 inline-flex items-center rounded-full border border-accent/30 bg-accent/10 px-3 py-1 text-xs font-bold text-accent">
+          <p className="mb-4 inline-flex items-center rounded-full border border-accent/30 bg-accent/10 px-3 py-1 text-xs font-bold text-accent-ink">
             Thai-first expense tracking
           </p>
           <h1 className="text-5xl font-bold tracking-tight text-ink sm:text-6xl">
@@ -51,8 +51,8 @@ export default async function LandingPage({
           </div>
         </div>
 
-        <div className="rounded-2xl border border-line/60 bg-surface p-5 shadow-soft">
-          <div className="rounded-xl bg-elevated p-4">
+        <div className="rounded-card border border-line bg-surface p-5 shadow-card">
+          <div className="rounded-stat bg-track p-4">
             <div className="flex items-end justify-between">
               <div>
                 <p className="text-xs font-bold uppercase tracking-widest text-muted">
@@ -62,11 +62,11 @@ export default async function LandingPage({
                   ฿420.00
                 </p>
               </div>
-              <span className="rounded-full bg-accent/15 px-3 py-1 text-xs font-bold text-accent">
+              <span className="rounded-full bg-accent/10 px-3 py-1 text-xs font-bold text-accent-ink dark:bg-accent/15">
                 ฿580 left
               </span>
             </div>
-            <div className="mt-4 h-3 overflow-hidden rounded-full bg-line">
+            <div className="mt-4 h-3 overflow-hidden rounded-full bg-surface dark:bg-canvas">
               <div className="h-full w-[42%] rounded-full bg-accent" />
             </div>
             <p className="mt-2 text-xs text-muted">of ฿1,000.00 daily limit</p>
@@ -94,7 +94,7 @@ export default async function LandingPage({
               return (
                 <div
                   key={item.title}
-                  className="flex gap-3 rounded-xl border border-line/60 bg-canvas/50 p-3"
+                  className="flex gap-3 rounded-stat border border-line bg-surface p-3"
                 >
                   <Icon className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
                   <div>

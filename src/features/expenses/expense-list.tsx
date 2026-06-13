@@ -30,12 +30,12 @@ export function ExpenseList({ expenses }: { expenses: ExpenseWithCategory[] }) {
       {expenses.map((expense) => (
         <div
           key={expense.id}
-          className="flex items-center justify-between gap-3 rounded-2xl border border-line/60 bg-surface p-4 transition-colors hover:bg-elevated"
+          className="flex items-center justify-between gap-3 rounded-stat border border-line bg-surface p-4 shadow-card transition-colors hover:bg-track"
         >
           <div className="flex min-w-0 items-center gap-3">
             <span
               className="h-10 w-10 flex-none rounded-xl"
-              style={{ background: expense.categories?.color ?? "#94a3b8" }}
+              style={{ background: expense.categories?.color ?? "#7C8AA5" }}
             />
             <div className="min-w-0">
               <p className="truncate font-semibold text-ink">
