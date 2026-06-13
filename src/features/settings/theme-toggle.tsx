@@ -34,7 +34,7 @@ export function ThemeToggle({ initialTheme }: { initialTheme: Theme }) {
             startTransition(() => updateProfileSettings({ theme_preference: item.value }));
           }}
           className={`flex min-h-10 items-center justify-center gap-2 rounded-md text-sm transition ${
-            theme === item.value ? "bg-accent text-slate-950" : "text-muted hover:bg-surface hover:text-ink"
+            theme === item.value ? "bg-accent text-white" : "text-muted hover:bg-surface hover:text-ink"
           }`}
         >
           {item.icon}

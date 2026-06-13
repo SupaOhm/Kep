@@ -4,28 +4,36 @@
 
 :root {
   color-scheme: light;
-  --color-canvas: 246 243 237;
-  --color-surface: 251 250 247;
-  --color-elevated: 255 255 252;
-  --color-ink: 21 25 23;
-  --color-muted: 98 107 103;
-  --color-line: 222 218 209;
-  --color-accent: 16 185 129;
-  --color-danger: 220 38 38;
-  --color-warning: 217 119 6;
+  /* cool neutral grey-white — Kep Dashboard spec */
+  --color-canvas: 244 245 247; /* #F4F5F7 */
+  --color-surface: 255 255 255; /* #FFFFFF */
+  --color-elevated: 237 239 242; /* #EDEFF2 (track tint) */
+  --color-track: 237 239 242; /* #EDEFF2 */
+  --color-ink: 20 23 28; /* #14171C */
+  --color-ink-soft: 64 71 82; /* #404752 */
+  --color-muted: 107 114 124; /* #6B727C */
+  --color-line: 231 233 237; /* #E7E9ED */
+  --color-accent: 16 185 129; /* #10B981 */
+  --color-accent-ink: 11 122 86; /* #0B7A56 */
+  --color-danger: 220 38 38; /* #DC2626 */
+  --color-warning: 217 119 6; /* #D97706 */
 }
 
 .dark {
   color-scheme: dark;
-  --color-canvas: 15 19 18;
-  --color-surface: 21 27 25;
-  --color-elevated: 27 35 32;
-  --color-ink: 235 239 236;
-  --color-muted: 155 167 162;
-  --color-line: 48 58 54;
-  --color-accent: 52 211 153;
-  --color-danger: 248 113 113;
-  --color-warning: 251 191 36;
+  /* midnight charcoal — Kep Dashboard spec */
+  --color-canvas: 14 16 20; /* #0E1014 */
+  --color-surface: 22 26 32; /* #161A20 */
+  --color-elevated: 35 41 50; /* #232932 (track tint) */
+  --color-track: 35 41 50; /* #232932 */
+  --color-ink: 233 236 241; /* #E9ECF1 */
+  --color-ink-soft: 182 189 200; /* #B6BDC8 */
+  --color-muted: 139 147 160; /* #8B93A0 */
+  --color-line: 38 44 53; /* #262C35 */
+  --color-accent: 52 211 153; /* #34D399 */
+  --color-accent-ink: 52 211 153; /* #34D399 */
+  --color-danger: 248 113 113; /* #F87171 */
+  --color-warning: 251 191 36; /* #FBBF24 */
 }
 
 * {
@@ -41,8 +49,7 @@ body {
   min-height: 100vh;
   margin: 0;
   background:
-    radial-gradient(ellipse 70% 50% at 90% 0%, rgb(var(--color-accent) / 0.07), transparent),
-    radial-gradient(ellipse 50% 40% at 10% 100%, rgb(var(--color-accent) / 0.04), transparent),
+    radial-gradient(ellipse 60% 40% at 90% 0%, rgb(var(--color-accent) / 0.04), transparent),
     rgb(var(--color-canvas));
   color: rgb(var(--color-ink));
   font-feature-settings:

@@ -120,7 +120,7 @@ export function SlipUploadForm({ categories }: { categories: Category[] }) {
                 {Math.round(progress.progress * 100)}%
               </span>
             </div>
-            <div className="h-2 overflow-hidden rounded-full bg-line">
+            <div className="h-2 overflow-hidden rounded-full bg-track">
               <div
                 className="h-full rounded-full bg-accent"
                 style={{ width: `${progress.progress * 100}%` }}

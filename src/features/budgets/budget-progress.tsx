@@ -43,14 +43,14 @@ export function BudgetProgress({
                   ? "bg-danger/15 text-danger"
                   : summary.status === "warning"
                     ? "bg-warning/15 text-warning"
-                    : "bg-accent/15 text-accent"
+                    : "bg-accent/10 text-accent-ink dark:bg-accent/15"
               )}
             >
               {statusLabel}
             </span>
           )}
         </div>
-        <div className="h-3 overflow-hidden rounded-full bg-line">
+        <div className="h-3 overflow-hidden rounded-full bg-track">
           <div
             className={clsx("h-full rounded-full transition-all duration-700", barColor)}
             style={{ width }}
@@ -89,7 +89,7 @@ export function BudgetProgress({
           </p>
         </div>
       </div>
-      <div className="h-2 overflow-hidden rounded-full bg-line">
+      <div className="h-2 overflow-hidden rounded-full bg-track">
         <div
           className={clsx("h-full rounded-full transition-all duration-700", barColor)}
           style={{ width }}
