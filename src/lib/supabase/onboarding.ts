@@ -59,14 +59,18 @@ export async function ensureUserWorkspace(supabase: AppSupabaseClient, user: Use
   const missingCategories = defaultCategories.filter(([name]) => !existingCategoryNames.has(name));
 
   if (missingCategories.length > 0) {
-    const { error: categoriesInsertError } = await supabase.from("categories").insert(
+    const { error: categoriesInsertError } = await supabase.from("categories").upsert(
       missingCategories.map(([name, color, icon]) => ({
         user_id: user.id,
         name,
         color,
         icon,
         is_default: true
-      }))
+      })),
+      {
+        onConflict: "user_id,name",
+        ignoreDuplicates: true
+      }
     );
     if (!isDuplicateKeyError(categoriesInsertError)) {
       throwIfSupabaseError(categoriesInsertError, "Unable to create default categories");
