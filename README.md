@@ -86,7 +86,11 @@ Apply SQL through the Supabase dashboard SQL editor, Supabase CLI, or your migra
 supabase db push
 ```
 
-If you are not using the Supabase CLI yet, paste `supabase/migrations/202605220001_initial_schema.sql` into the Supabase SQL editor and run it once.
+If you are not using the Supabase CLI yet, apply migrations in order through the Supabase SQL editor:
+
+1. `supabase/migrations/202605220001_initial_schema.sql` — initial schema
+2. `supabase/migrations/20260603000000_add_heartbeat_table.sql` — heartbeat table
+3. `supabase/migrations/20260613000000_dedupe_categories_unique.sql` — dedupe categories and add `(user_id, name)` unique constraint
 
 The app creates profile, default categories, and disabled default budgets idempotently after login. There is no database auth trigger in this MVP.
 
